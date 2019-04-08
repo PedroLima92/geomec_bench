@@ -118,7 +118,7 @@ MHM_Frac/FracFlow: /usr/local/lib/libboost_system.dylib
 MHM_Frac/FracFlow: /usr/local/lib/libboost_chrono.dylib
 MHM_Frac/FracFlow: /usr/local/lib/libboost_date_time.dylib
 MHM_Frac/FracFlow: /usr/local/lib/libboost_atomic.dylib
-MHM_Frac/FracFlow: /Users/pedro/projetos/neopz-build/libpz.a
+MHM_Frac/FracFlow: /Users/pedro/projetos/neopz-install/pzlib/lib/libpz.a
 MHM_Frac/FracFlow: /usr/local/lib/libmpfr.dylib
 MHM_Frac/FracFlow: /usr/local/lib/libgmp.dylib
 MHM_Frac/FracFlow: /usr/local/lib/libboost_thread.dylib

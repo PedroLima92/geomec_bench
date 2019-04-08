@@ -28,23 +28,15 @@ typedef std::list<CGAL_Point>::iterator Iterator;
 typedef CGAL::AABB_segment_primitive<K, Iterator> Primitive;
 typedef CGAL::AABB_traits<K, Primitive> Traits;
 
-typedef std::tuple<int,int,int> pointloc;
-
-inline bool operator<(const pointloc &a, const pointloc &b)
-{
-    return
-    std::get<0>(a) < std::get<0>(b) ||
-    (std::get<0>(a) == std::get<0>(b) && std::get<1>(a) < std::get<1>(b)) ||
-    (std::get<0>(a) == std::get<0>(b) && std::get<1>(a) == std::get<1>(b) && std::get<2>(a) < std::get<2>(b));
-}
 
 class TPZPointCloud
 {
     
 public:
     
-    std::list<CGAL_Points> Points;
-    
+    std::map<CGAL_Point, int64_t> Points;
+    //std::map<CGAL_Point, int64_t> CGALPoints;
+
     REAL delxmin = 0.1;
     
     REAL tol = 1.e-3;
@@ -53,22 +45,17 @@ public:
     
     TPZGeoMesh *gmesh = 0;
     
-    void SurroundingBox(const TPZVec<REAL> &x, TPZStack<pointloc> &box);
-    
+    //Uses CGAL library to find closest point
     inline int64_t FindClosePoint(const TPZVec<REAL> &point);
 
+    //Why are there two different methods of inserting/adding new points?
     void AddPoint(int64_t index, TPZVec<REAL> &point);
     
     REAL Dist(TPZVec<REAL> &x1, TPZVec<REAL> &x2);
+
+    void InsertGmesh(TPZGeoMesh *gmesh);
     
-    void PointlocToCo(const pointloc &a, TPZVec<REAL> &x)
-    {
-        x[0] = x0[0]+delxmin*std::get<0>(a);
-        x[1] = x0[1]+delxmin*std::get<1>(a);
-        x[2] = x0[2]+delxmin*std::get<2>(a);
-    }
-    
-    void PointlocToCGAL(const CGAL_Point &a, TPZVec<REAL> &x)
+    void CGALToCoord(const CGAL_Point &a, TPZVec<REAL> &x)
     {
         x[0] = x0[0] + a[0];
         x[1] = x0[1] + a[1];
@@ -79,10 +66,13 @@ public:
     
     TPZPointCloud() : x0(3,0.) {}
     
-    TPZPointCloud(const TPZPointCloud &copy) : Points(copy.Points), delxmin(copy.delxmin), tol(copy.tol), x0(3,0.), gmesh(copy.gmesh)
-    {
-        
-    }
+    TPZPointCloud(const TPZPointCloud &copy) 
+    :   Points(copy.Points),
+        delxmin(copy.delxmin), 
+        tol(copy.tol), 
+        x0(3,0.), 
+        gmesh(copy.gmesh)
+    {}
     
     
     TPZPointCloud &operator=(const TPZPointCloud &copy)
@@ -100,13 +90,16 @@ public:
         
     }
     
-    void InsertGmesh(TPZGeoMesh *gmesh);
     
+    //Why are there two different methods of inserting/adding new points?
     inline int64_t InsertPoint(TPZVec<REAL> &newpoint)
     {
-        int64_t existing = FindClosePoint(newpoint);
-        if (existing >= 0) {
-            return existing;
+        int63_t closest_index = FindClosePoint(newpoint);
+        TPZVec<REAL> closest;
+        CGALToCoord(Points[closest_index], closest);
+        if (Dist(newpoint, closest) <= delxmin)
+        {
+            return closest_index 
         }
         else
         {

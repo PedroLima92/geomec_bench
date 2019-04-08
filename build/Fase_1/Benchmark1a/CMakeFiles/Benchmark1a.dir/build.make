@@ -448,7 +448,7 @@ Fase_1/Benchmark1a/Benchmark1a: /usr/local/lib/libboost_system.dylib
 Fase_1/Benchmark1a/Benchmark1a: /usr/local/lib/libboost_chrono.dylib
 Fase_1/Benchmark1a/Benchmark1a: /usr/local/lib/libboost_date_time.dylib
 Fase_1/Benchmark1a/Benchmark1a: /usr/local/lib/libboost_atomic.dylib
-Fase_1/Benchmark1a/Benchmark1a: /Users/pedro/projetos/neopz-build/libpz.a
+Fase_1/Benchmark1a/Benchmark1a: /Users/pedro/projetos/neopz-install/pzlib/lib/libpz.a
 Fase_1/Benchmark1a/Benchmark1a: /usr/local/lib/libmpfr.dylib
 Fase_1/Benchmark1a/Benchmark1a: /usr/local/lib/libgmp.dylib
 Fase_1/Benchmark1a/Benchmark1a: /usr/local/lib/libboost_thread.dylib
