@@ -16,6 +16,18 @@
 #include "pzgmesh.h"
 #include "pzvec_extras.h"
 
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/AABB_tree.h>
+#include <CGAL/AABB_traits.h>
+#include <CGAL/AABB_segment_primitive.h>
+
+typedef CGAL::Simple_cartesian<double> K;
+typedef K::Point_3 CGAL_Point;
+
+typedef std::list<CGAL_Point>::iterator Iterator;
+typedef CGAL::AABB_segment_primitive<K, Iterator> Primitive;
+typedef CGAL::AABB_traits<K, Primitive> Traits;
+
 typedef std::tuple<int,int,int> pointloc;
 
 inline bool operator<(const pointloc &a, const pointloc &b)
@@ -31,7 +43,7 @@ class TPZPointCloud
     
 public:
     
-    std::map<pointloc, int64_t> Points;
+    std::list<CGAL_Points> Points;
     
     REAL delxmin = 0.1;
     
@@ -43,6 +55,8 @@ public:
     
     void SurroundingBox(const TPZVec<REAL> &x, TPZStack<pointloc> &box);
     
+    inline int64_t FindClosePoint(const TPZVec<REAL> &point);
+
     void AddPoint(int64_t index, TPZVec<REAL> &point);
     
     REAL Dist(TPZVec<REAL> &x1, TPZVec<REAL> &x2);
@@ -54,6 +68,13 @@ public:
         x[2] = x0[2]+delxmin*std::get<2>(a);
     }
     
+    void PointlocToCGAL(const CGAL_Point &a, TPZVec<REAL> &x)
+    {
+        x[0] = x0[0] + a[0];
+        x[1] = x0[1] + a[1];
+        x[2] = x0[2] + a[2];
+    }
+
 public:
     
     TPZPointCloud() : x0(3,0.) {}
@@ -95,29 +116,5 @@ public:
         }
     }
     
-    
-    
-    inline int64_t FindClosePoint(const TPZVec<REAL> &point)
-    {
-        TPZStack<pointloc> box;
-        SurroundingBox(point, box);
-        int64_t boxsize = box.size();
-        for (int i=0; i<boxsize; i++) {
-            if (Points.find(box[i]) != Points.end()) {
-                REAL dist = 0.;
-                int64_t index = Points[box[i]];
-                TPZManVector<REAL,3> xp(3);
-                gmesh->NodeVec()[index].GetCoordinates(xp);
-                xp -= point;
-                for (int il=0; il<3; il++) {
-                    dist = std::max(dist,std::abs(xp[i]));
-                }
-                if (dist < tol) {
-                    return index;
-                }
-            }
-        }
-        return -1;
-    }
 };
 #endif /* TPZPointCloud_hpp */
