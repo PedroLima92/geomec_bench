@@ -486,32 +486,6 @@ Experimental/fast:
 .PHONY : Experimental/fast
 
 #=============================================================================
-# Target rules for targets named Benchmark0a
-
-# Build rule for target.
-Benchmark0a: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Benchmark0a
-.PHONY : Benchmark0a
-
-# fast build rule for target.
-Benchmark0a/fast:
-	$(MAKE) -f Fase_1/Benchmark0a/CMakeFiles/Benchmark0a.dir/build.make Fase_1/Benchmark0a/CMakeFiles/Benchmark0a.dir/build
-.PHONY : Benchmark0a/fast
-
-#=============================================================================
-# Target rules for targets named Benchmark1a
-
-# Build rule for target.
-Benchmark1a: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Benchmark1a
-.PHONY : Benchmark1a
-
-# fast build rule for target.
-Benchmark1a/fast:
-	$(MAKE) -f Fase_1/Benchmark1a/CMakeFiles/Benchmark1a.dir/build.make Fase_1/Benchmark1a/CMakeFiles/Benchmark1a.dir/build
-.PHONY : Benchmark1a/fast
-
-#=============================================================================
 # Target rules for targets named FractureIntersection
 
 # Build rule for target.
@@ -600,8 +574,6 @@ help:
 	@echo "... ExperimentalMemCheck"
 	@echo "... Continuous"
 	@echo "... Experimental"
-	@echo "... Benchmark0a"
-	@echo "... Benchmark1a"
 	@echo "... FractureIntersection"
 	@echo "... FracPre"
 	@echo "... FracFlowGmsh"

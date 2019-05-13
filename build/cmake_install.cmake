@@ -34,8 +34,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/pedro/projetos/geomec_bench/build/Fase_1/Benchmark0a/cmake_install.cmake")
-  include("/Users/pedro/projetos/geomec_bench/build/Fase_1/Benchmark1a/cmake_install.cmake")
   include("/Users/pedro/projetos/geomec_bench/build/MHM_Frac/cmake_install.cmake")
 
 endif()

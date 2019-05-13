@@ -29,14 +29,6 @@
 /Users/pedro/projetos/geomec_bench/build/CMakeFiles/ExperimentalMemCheck.dir
 /Users/pedro/projetos/geomec_bench/build/CMakeFiles/Continuous.dir
 /Users/pedro/projetos/geomec_bench/build/CMakeFiles/Experimental.dir
-/Users/pedro/projetos/geomec_bench/build/Fase_1/Benchmark0a/CMakeFiles/rebuild_cache.dir
-/Users/pedro/projetos/geomec_bench/build/Fase_1/Benchmark0a/CMakeFiles/edit_cache.dir
-/Users/pedro/projetos/geomec_bench/build/Fase_1/Benchmark0a/CMakeFiles/test.dir
-/Users/pedro/projetos/geomec_bench/build/Fase_1/Benchmark0a/CMakeFiles/Benchmark0a.dir
-/Users/pedro/projetos/geomec_bench/build/Fase_1/Benchmark1a/CMakeFiles/rebuild_cache.dir
-/Users/pedro/projetos/geomec_bench/build/Fase_1/Benchmark1a/CMakeFiles/edit_cache.dir
-/Users/pedro/projetos/geomec_bench/build/Fase_1/Benchmark1a/CMakeFiles/test.dir
-/Users/pedro/projetos/geomec_bench/build/Fase_1/Benchmark1a/CMakeFiles/Benchmark1a.dir
 /Users/pedro/projetos/geomec_bench/build/MHM_Frac/CMakeFiles/rebuild_cache.dir
 /Users/pedro/projetos/geomec_bench/build/MHM_Frac/CMakeFiles/edit_cache.dir
 /Users/pedro/projetos/geomec_bench/build/MHM_Frac/CMakeFiles/test.dir

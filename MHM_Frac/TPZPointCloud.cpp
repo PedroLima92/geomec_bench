@@ -8,18 +8,17 @@
 #include "TPZPointCloud.h"
 #include "pzvec_extras.h"
 
-typedef CGAL::AABB_tree<Traits> Tree;
 
 
-void TPZPointCloud::AddPoint(int64_t index, TPZVec<REAL> &newpoint)
+void TPZPointCloud::AddPoint(int64_t index, TPZManVector<REAL,3> &newpoint)
 {
     
-    int63_t closest_index = FindClosePoint(newpoint);
-    TPZVec<REAL> closest;
-    CGALToCoord(Points[closest_index], closest);
+    int64_t closest_index = FindClosePoint(newpoint);
+    TPZManVector<REAL, 3> closest;
+    CGALToCoord(point_cloud[closest_index], closest);
     if (Dist(newpoint, closest) > delxmin)
     {
-        Points[index](newpoint[0], newpoint[1], newpoint[2]);
+        point_cloud[index](newpoint[0], newpoint[1], newpoint[2]);
     }
 }
 
@@ -33,8 +32,6 @@ void TPZPointCloud::InsertGmesh(TPZGeoMesh *geomesh)
         AddPoint(index, co);
     }
     
-    // Tree tree(Points.begin(), Points.end());
-    // tree.accelerate_distance_queries();
 }
 
 
@@ -50,11 +47,14 @@ REAL TPZPointCloud::Dist(TPZVec<REAL> &x1, TPZVec<REAL> &x2)
     return dist;
 }
 
-inline int64_t FindClosePoint(const TPZVec<REAL> &point)
+inline int64_t FindClosePoint(const TPZManVector<REAL,3> &point)
 {
-    //Construction of CGAL AABB search tree for efficient distance computation.
-    Tree tree(Points.begin(), Points.end());
-    tree.accelerate_distance_queries();
+    //Construction of CGAL search tree for efficient distance computation.
+    Tree tree(
+        boost::counting_iterator<int64_t>(0),
+        boost::counting_iterator<int64_t>(point_cloud.size()),
+        Splitter(),
+        Traits(point_cloud));
     
     /*Should the tree get (re)constructed every time the code has to look for 
     close points?
@@ -63,9 +63,12 @@ inline int64_t FindClosePoint(const TPZVec<REAL> &point)
     Isn't there a way to store the already built tree somewhere in the memory
     so that it would only require the addition of new points?*/ 
 
-    
+    Distance Dist_CGAL(point_cloud);
     CGAL_Point newpoint(point[0], point[1], point[2]);
-    CGAL_Point closest = tree.closest_point(newpoint);
-
-    return Points[closest];
+    
+    K_neighbor_search closest(tree, newpoint, 1, 0, true, Dist_CGAL);
+    int64_t closest_index = closest.begin()->first;
+    //K_neighbor_search::iterator it = closest.begin();
+    //return it->first;
+    return closest_index;
 }
